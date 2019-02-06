@@ -5,106 +5,36 @@ import {parseString} from 'react-native-xml2js';
 import Preloader from './Preloader';
 import Header from './Header';
 import ItemList from './ItemList';
+import Article from './Article';
 
 export default class RssList extends React.Component {
 
-  // url = 'http://www.omdbapi.com/?apikey=147c5a62&t=terminator&y=1996';
-  constructor(props) {
-    super(props);
-
-    this.url = 'http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml';
-    this.rssTitle = '';
-    this.rssItems = [];
-    this.state = {
-      status: 'waiting',
-      message: ''
-    }
-  }
-
-  componentDidMount() {
-    this.fetchRss(this.url);
-  }
-
-  parseRssTitle = rssObj => {
-    return rssObj.rss.channel[0].description[0];
-  };
-
-  parseRssItems = rssObj => {
-    // console.log(rssObj.rss.channel[0].item[0]);
-    // console.log(rssObj.rss.channel[0].item[0]['media:thumbnail'][0]['$'].height);
-    return rssObj.rss.channel[0].item
-      .map( (item, index) => ({
-        title: item.title[0],
-        description: item.description[0],
-        link: item.link[0],
-        pubDate: item.pubDate[0],
-        imageUrl: item['media:thumbnail'][0]['$'].url,
-        imageWidth: item['media:thumbnail'][0]['$'].width,
-        imageHeight: item['media:thumbnail'][0]['$'].height,
-        key: index.toString()
-      }));
-  };
-
-  fetchRss = (url) => {
-    fetch(url)
-      .then(response => {
-        return response.text();
-      })
-      .then((response) => {
-        if (!response) {
-          throw new Error(`Page not found, ${err}`);
-        } else {
-          parseString(response, (err, result) => {
-            if (err) {
-              throw err;
-            }
-            try {
-              this.rssTitle = this.parseRssTitle(result);
-              this.rssItems = this.parseRssItems(result);
-              this.setState({
-                status: 'success',
-                message: ''
-              });
-            } catch (err) {
-              throw new SyntaxError(`Parsing data error, ${err}`);
-            }
-          });
-        }
-      }).catch((err) => {
-        console.log('fetch', err);
-        this.setState({
-          status: 'error',
-          message: `Error, ${err}`
-       })
-    })
-  };
-
-  errorMessage = () => {
-    return (
-      <View style={styles.messageContainer}>
-        <Text>{this.state.message}</Text>
-      </View>
-    )
-  };
-
   render() {
-    {/*<ItemList rssItems={this.rssItems}/>*/}
-    {/*<Text>{this.rssItems[0].title}</Text>*/}
-    const content = () => {
-      switch (this.state.status) {
+
+    const ErrorMessage = () => {
+      return (
+        <View style={styles.messageContainer}>
+          <Text>{this.props.status.message}</Text>
+        </View>
+      )
+    };
+
+    const Content = () => {
+      switch (this.props.status.status) {
         case 'waiting':
           return <Preloader/>;
         case 'error':
-          return this.errorMessage();
+          return <ErrorMessage/>;
         case 'success':
-          return <ItemList rssItems={this.rssItems}/>;
+          return <ItemList rssItems={this.props.rssItems}/>;
+          // return <Article link={this.rssItems[0].link}/>
       }
     };
 
     return (
       <View style={styles.container}>
-        <Header title={this.rssTitle}/>
-        { content() }
+        <Header title={this.props.rssTitle}/>
+        <Content />
       </View>
 
     );
