@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   title: {
     paddingLeft: 10,
     color: 'white',
-    fontSize: 20
+    fontSize: 16
   }
 });
 

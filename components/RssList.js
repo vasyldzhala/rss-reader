@@ -30,13 +30,18 @@ export default class RssList extends React.Component {
   };
 
   parseRssItems = rssObj => {
+    // console.log(rssObj.rss.channel[0].item[0]);
+    // console.log(rssObj.rss.channel[0].item[0]['media:thumbnail'][0]['$'].height);
     return rssObj.rss.channel[0].item
-      .map( item => ({
+      .map( (item, index) => ({
         title: item.title[0],
         description: item.description[0],
         link: item.link[0],
         pubDate: item.pubDate[0],
-        thumbnailUrl: item['media:thumbnail'][0].url
+        imageUrl: item['media:thumbnail'][0]['$'].url,
+        imageWidth: item['media:thumbnail'][0]['$'].width,
+        imageHeight: item['media:thumbnail'][0]['$'].height,
+        key: index.toString()
       }));
   };
 

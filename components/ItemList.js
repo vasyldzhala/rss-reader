@@ -1,17 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 
+import ItemThumbnail from './ItemThumbnail'
+
 const ItemList = props => {
-
   return (
-
     <View style={styles.container}>
-      <View style={styles.container}>
-        <FlatList
-          data={props.rssItems}
-          renderItem={({item}) => <Text keyExtractor={(item, index) => index} style={styles.item} >{item.title}</Text>}
-        />
-      </View>
+      <FlatList
+        data={props.rssItems}
+        renderItem={({item}) => <ItemThumbnail item={item}/>}
+      />
     </View>
   );
 };
@@ -21,7 +19,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#fff',
-    alignItems: 'flex-start',
+    alignItems: 'stretch',
     justifyContent: 'flex-start'
   },
   item: {
