@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, Text, View, WebView, Modal, TouchableHighlight, ActivityIndicator} from 'react-native';
-import Preloader from './Preloader';
 
 export default class Article extends React.Component {
 
@@ -16,6 +15,7 @@ export default class Article extends React.Component {
   render() {
     return (
       <View>
+
         <Modal
           animationType="slide"
           transparent={false}
@@ -26,7 +26,9 @@ export default class Article extends React.Component {
             });
           }}
         >
+
           <View style={styles.modalContainer}>
+
             <View style={styles.modalHeader}>
               <TouchableHighlight
                 onPress={() => {
@@ -41,13 +43,13 @@ export default class Article extends React.Component {
                 : null
               }
             </View>
+
             <View style={styles.modalContainer}>
               <WebView
                 source={{uri: this.props.articleLink}}
                 onLoadStart={(e) => this.setState({isLoadEnd: false})}
                 onLoadEnd={(e) => this.setState({isLoadEnd: true})}
-              >
-              </WebView>
+              />
             </View>
 
           </View>
@@ -63,18 +65,18 @@ export default class Article extends React.Component {
             <Text style={{color: 'white'}}>Show Article</Text>
           </TouchableHighlight>
         </View>
+
       </View>
 
     );
   }
-
 };
 
 const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#ccc',
+    backgroundColor: '#fff',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
   },
@@ -91,8 +93,3 @@ const styles = StyleSheet.create({
   }
 });
 
-{/*<WebView*/}
-  {/*source={{uri: this.props.articleLink}}*/}
-  {/*style={{marginTop: 10}}*/}
-{/*>*/}
-{/*</WebView>*/}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 const ItemThumbnail = props => {
 
@@ -10,7 +10,6 @@ const ItemThumbnail = props => {
       <Image style={styles.image}
         source={image}
       />
-
       <View style={styles.textContainer}>
         <Text style={styles.title}>
           {props.item.title}
@@ -21,7 +20,6 @@ const ItemThumbnail = props => {
         <Text style={styles.date}>
           {props.item.pubDate}
         </Text>
-
       </View>
     </View>
   );
@@ -29,11 +27,8 @@ const ItemThumbnail = props => {
 
 const styles = StyleSheet.create({
   itemContainer: {
-
-
     flex: 1,
     flexDirection: 'row',
-    // alignItems: 'flex-start',
     justifyContent: 'flex-start',
     marginTop: 5,
     marginBottom: 5,

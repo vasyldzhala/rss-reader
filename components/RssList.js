@@ -1,11 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {parseString} from 'react-native-xml2js';
+import {StyleSheet, Text, View} from 'react-native';
 
 import Preloader from './Preloader';
 import Header from './Header';
 import ItemList from './ItemList';
-import Article from './Article';
 
 export default class RssList extends React.Component {
 
@@ -19,8 +17,6 @@ export default class RssList extends React.Component {
 
   render() {
 
-
-
     const Content = () => {
       switch (this.props.status.status) {
         case 'waiting':
@@ -29,14 +25,13 @@ export default class RssList extends React.Component {
           return <ErrorMessage/>;
         case 'success':
           return <ItemList rssItems={this.props.rssItems}/>;
-          // return <Article link={this.rssItems[0].link}/>
       }
     };
 
     return (
       <View style={styles.container}>
         <Header title={this.props.rssTitle}/>
-        <Content />
+        <Content/>
       </View>
 
     );
@@ -63,5 +58,4 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
   },
-
 });

@@ -1,97 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {parseString} from 'react-native-xml2js';
 
-import RssList from './components/RssList';
+import RssReader from './components/RssReader';
 
 export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.url = 'http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml';
-    this.rssTitle = '';
-    this.rssItems = [];
-    this.state = {
-      status: 'waiting',
-      message: ''
-    }
   }
-
-  componentDidMount() {
-    this.fetchRss(this.url);
-  }
-
-  parseRssTitle = rssObj => {
-    return rssObj.rss.channel[0].description[0];
-  };
-
-  parseRssItems = rssObj => {
-    return rssObj.rss.channel[0].item
-      .map( (item, index) => ({
-        title: item.title[0],
-        description: item.description[0],
-        link: item.link[0],
-        pubDate: item.pubDate[0],
-        imageUrl: item['media:thumbnail'][0]['$'].url,
-        imageWidth: item['media:thumbnail'][0]['$'].width,
-        imageHeight: item['media:thumbnail'][0]['$'].height,
-        key: index.toString()
-      }));
-  };
-
-  fetchRss = (url) => {
-    fetch(url)
-      .then(response => {
-        return response.text();
-      })
-      .then((response) => {
-        if (!response) {
-          throw new Error(`Page not found, ${err}`);
-        } else {
-          parseString(response, (err, result) => {
-            if (err) {
-              throw err;
-            }
-            try {
-              this.rssTitle = this.parseRssTitle(result);
-              this.rssItems = this.parseRssItems(result);
-              this.setState({
-                status: 'success',
-                message: ''
-              });
-            } catch (err) {
-              throw new SyntaxError(`Parsing data error, ${err}`);
-            }
-          });
-        }
-      }).catch((err) => {
-      console.log('fetch', err);
-      this.setState({
-        status: 'error',
-        message: `Error, ${err}`
-      })
-    })
-  };
 
   render() {
     return (
-      <View style={styles.container}>
-        <RssList
-          status={this.state}
-          rssTitle={this.rssTitle}
-          rssItems={this.rssItems}
-        />
-      </View>
+      <RssReader
+        url={this.url}
+      />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-  },
-});

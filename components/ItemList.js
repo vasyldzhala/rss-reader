@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, FlatList, TouchableHighlight } from 'react-native';
 
 import ItemThumbnail from './ItemThumbnail';
 import Article from './Article';
-import Article1 from './Article1';
 
 export default class ItemList extends React.Component {
 
