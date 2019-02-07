@@ -9,15 +9,17 @@ import Article from './Article';
 
 export default class RssList extends React.Component {
 
+  ErrorMessage = () => {
+    return (
+      <View style={styles.messageContainer}>
+        <Text>{this.props.status.message}</Text>
+      </View>
+    )
+  };
+
   render() {
 
-    const ErrorMessage = () => {
-      return (
-        <View style={styles.messageContainer}>
-          <Text>{this.props.status.message}</Text>
-        </View>
-      )
-    };
+
 
     const Content = () => {
       switch (this.props.status.status) {

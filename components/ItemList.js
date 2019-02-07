@@ -1,21 +1,67 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableHighlight } from 'react-native';
 
-import ItemThumbnail from './ItemThumbnail'
+import ItemThumbnail from './ItemThumbnail';
+import Article from './Article';
+import Article1 from './Article1';
 
-const ItemList = props => {
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={props.rssItems}
-        renderItem={({item}) => <ItemThumbnail item={item}/>}
-      />
-    </View>
-  );
+export default class ItemList extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isArticleVisible: false
+    }
+
+  }
+
+  onPress = (articleLink) => {
+    this.setState({
+      isArticleVisible: true,
+      articleLink: articleLink
+    });
+  };
+
+  render() {
+
+    const ArticleModal = () => {
+      if (this.state.isArticleVisible) {
+        return (
+          <Article
+            isArticleVisible={this.state.isArticleVisible}
+            articleLink={this.state.articleLink}
+          />
+        );
+      }
+      return null;
+    };
+
+    return (
+      <View style={styles.itemListContainer}>
+
+        <FlatList
+          data={this.props.rssItems}
+          renderItem={
+            ({item}) => {
+              return (
+                <TouchableHighlight onPress={this.onPress.bind(this, item.link)}>
+                  <ItemThumbnail item={item}/>
+                </TouchableHighlight>
+              )
+            }
+          }
+        />
+
+        <ArticleModal/>
+
+      </View>
+    )
+  }
 };
 
 const styles = StyleSheet.create({
-  container: {
+  itemListContainer: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#fff',
@@ -29,5 +75,3 @@ const styles = StyleSheet.create({
     marginBottom: 10
   }
 });
-
-export default ItemList;
